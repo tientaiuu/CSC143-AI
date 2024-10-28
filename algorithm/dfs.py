@@ -74,7 +74,7 @@ def solve_maze(filename, initial_depth=10, max_increment=10, max_limit=1000):
 
     output_filename = "output/output-" + os.path.basename(filename).split('-')[1]
     if path:
-        with open(output_filename, "w") as output_file:
+        with open(output_filename, "a") as output_file:
             output_file.write("DFS\n")
             output_file.write(f"Steps: {len(path)}, Weight: {weight}, Node: {expanded_nodes}, "
                               f"Time (ms): {(end_time - start_time) * 1000:.2f}, "
