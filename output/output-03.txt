@@ -1,0 +1,15 @@
+UCS
+Steps: 40, Weight: 314, Node: 1735759, Time (ms): 60488.88, Memory (MB): 352.20
+rrrrddrrUdlldllulDDrdddlldRRRRuuurrRRurD
+A*
+Steps: 40, Weight: 314, Node: 1704794, Time (ms): 75764.86, Memory (MB): 353.07
+rrrrddrrUdlldllulDDrdddlldRRRRuuurrRRurD
+UCS
+Steps: 53, Weight: 284, Node: 1821881, Time (ms): 46248.31, Memory (MB): 346.15
+rrdddddddlldRRRRuuurrRRurDullldlllluuulDDuuruurrddrrU
+A*
+Steps: 40, Weight: 314, Node: 1704794, Time (ms): 125086.71, Memory (MB): 353.21
+rrrrddrrUdlldllulDDrdddlldRRRRuuurrRRurD
+A*
+Steps: 40, Weight: 314, Node: 1704794, Time (ms): 74174.92, Memory (MB): 353.29
+rrrrddrrUdlldllulDDrdddlldRRRRuuurrRRurD

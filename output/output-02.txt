@@ -1,0 +1,21 @@
+UCS
+Steps: 39, Weight: 92, Node: 665036, Time (ms): 22020.49, Memory (MB): 141.13
+llldRRRRRdlLDldRuuLddrRRRRRRllluuUluRRR
+A*
+Steps: 41, Weight: 94, Node: 664599, Time (ms): 27233.12, Memory (MB): 141.41
+llldRRRRRdlLDldRRRRRRRllluuUdlllLrrruuRRR
+UCS
+Steps: 39, Weight: 92, Node: 665036, Time (ms): 21265.40, Memory (MB): 141.13
+llldRRRRRdlLDldRuuLddrRRRRRRllluuUluRRR
+A*
+Steps: 41, Weight: 94, Node: 664599, Time (ms): 27713.69, Memory (MB): 141.41
+llldRRRRRdlLDldRRRRRRRllluuUdlllLrrruuRRR
+UCS
+Steps: 55, Weight: 72, Node: 672259, Time (ms): 18451.59, Memory (MB): 133.45
+ldddRRRurDldRRRRllluuuullddLuulllddrUluRRRRlddLuurrRRRR
+A*
+Steps: 41, Weight: 94, Node: 664599, Time (ms): 28867.01, Memory (MB): 141.41
+llldRRRRRdlLDldRRRRRRRllluuUdlllLrrruuRRR
+A*
+Steps: 20, Weight: 510, Node: 14946, Time (ms): 432.77, Memory (MB): 2.25
+ddrrDldRRRRuuuLLLulD
