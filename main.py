@@ -2,7 +2,7 @@ import os
 from algorithm.dfs import solve_maze as solve_maze_dfs
 from algorithm.bfs import solve_maze as solve_maze_bfs
 from algorithm.ucs import solve_maze as solve_maze_ucs
-from algorithm.a_star import solve_maze as solve_maze_a_star  # Import A*
+from algorithm.a_star import solve_maze as solve_maze_a_star 
 
 def run_all_mazes(input_folder="input", initial_depth=10, max_increment=5, max_limit=1000):
     # Lặp qua tất cả các tệp trong thư mục input
@@ -16,7 +16,7 @@ def run_all_mazes(input_folder="input", initial_depth=10, max_increment=5, max_l
             print(f"Đang xử lý với BFS: {input_path}")
             solve_maze_bfs(input_path)
             
-            # print(f"Đang xử lý với UCS: {input_path}")
+            print(f"Đang xử lý với UCS: {input_path}")
             # solve_maze_ucs(input_path)
             
             print(f"Đang xử lý với A*: {input_path}")

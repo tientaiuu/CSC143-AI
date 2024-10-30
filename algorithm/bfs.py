@@ -1,11 +1,11 @@
 from collections import deque
-from utils import read_maze_from_file, find_positions, all_stones_on_targets, is_valid_move
+from utils import *
 import time
 import tracemalloc
 import os
 
 def bfs(maze, x, y, stones, targets, weights):
-    queue = deque([(x, y, stones, [], 0, 0)]) 
+    queue = deque([(x, y, stones, [], 0)]) 
     visited = set() 
     expanded_nodes = 0  
 

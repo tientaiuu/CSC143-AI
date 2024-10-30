@@ -13,3 +13,9 @@ rrrrddrrUdlldllulDDrdddlldRRRRuuurrRRurD
 A*
 Steps: 40, Weight: 314, Node: 1704794, Time (ms): 74174.92, Memory (MB): 353.29
 rrrrddrrUdlldllulDDrdddlldRRRRuuurrRRurD
+BFS
+Steps: 40, Weight: 284, Node: 425220, Time (ms): 17184.08, Memory (MB): 167.30
+rrrrddrrUdlldllulDDrdddlldRRRRuuurrRRurD
+A*
+Steps: 40, Weight: 314, Node: 1704794, Time (ms): 140532.84, Memory (MB): 353.34
+rrrrddrrUdlldllulDDrdddlldRRRRuuurrRRurD

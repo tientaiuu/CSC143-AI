@@ -19,3 +19,9 @@ llldRRRRRdlLDldRRRRRRRllluuUdlllLrrruuRRR
 A*
 Steps: 20, Weight: 510, Node: 14946, Time (ms): 432.77, Memory (MB): 2.25
 ddrrDldRRRRuuuLLLulD
+BFS
+Steps: 20, Weight: 499, Node: 3720, Time (ms): 177.49, Memory (MB): 0.92
+ddrrDldRRRRuuuLLLulD
+A*
+Steps: 20, Weight: 510, Node: 14946, Time (ms): 794.27, Memory (MB): 2.33
+ddrrDldRRRRuuuLLLulD
