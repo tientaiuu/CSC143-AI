@@ -89,11 +89,7 @@ class MazeApp:
         self.stone_img = ImageTk.PhotoImage(Image.open("assets/rock.png").resize((self.cell_size, self.cell_size)))
         self.hole_img = ImageTk.PhotoImage(Image.open("assets/hole.png").resize((self.cell_size, self.cell_size)))
         self.wall_img = ImageTk.PhotoImage(Image.open("assets/wall.png").resize((self.cell_size, self.cell_size)))
-        self.background_img = ImageTk.PhotoImage(Image.open("assets/background.png").resize((600, 600)))
-        self.control_background_img = ImageTk.PhotoImage(Image.open("assets/control_background.png").resize((300, 600)))
         
-    
-
     def create_widgets(self):
         # Tạo khung chính
         main_frame = tk.Frame(self.root)
