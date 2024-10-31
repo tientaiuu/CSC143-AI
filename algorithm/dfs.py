@@ -1,10 +1,8 @@
+# dfs.py
 import time
 import tracemalloc
 import os
 from utils import read_maze_from_file, find_positions, all_stones_on_targets, is_valid_move
-
-def heuristic_distance(pos, targets):
-    return min(abs(pos[0] - target[0]) + abs(pos[1] - target[1]) for target in targets)
 
 def dfs(maze, x, y, stones, targets, weights, max_depth):
     stack = [(x, y, stones, [], 0, 0)]
@@ -29,9 +27,7 @@ def dfs(maze, x, y, stones, targets, weights, max_depth):
         moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         move_directions = ['u', 'd', 'l', 'r']
 
-        moves_sorted = sorted(zip(moves, move_directions), key=lambda m: heuristic_distance((x + m[0][0], y + m[0][1]), targets))
-
-        for move, direction in moves_sorted:
+        for move, direction in zip(moves, move_directions):
             next_x, next_y = x + move[0], y + move[1]
             new_stones = list(stones)
 
@@ -48,11 +44,7 @@ def dfs(maze, x, y, stones, targets, weights, max_depth):
 
 def solve_maze(filename, initial_depth=10, max_increment=10, max_limit=1000):
     weights, maze = read_maze_from_file(filename)
-    ares, stones, targets = find_positions(maze)
-
-    if ares is None or not stones or not targets or len(stones) != len(targets):
-        print("Mê cung không có vị trí hợp lệ hoặc số lượng đá và đích không khớp.")
-        return
+    player_pos, stones, targets = find_positions(maze)
 
     tracemalloc.start()
     start_time = time.time()
@@ -60,26 +52,21 @@ def solve_maze(filename, initial_depth=10, max_increment=10, max_limit=1000):
     path, weight, expanded_nodes = None, 0, 0
     current_depth = initial_depth
 
-    # Tăng dần max_depth cho đến khi tìm được lời giải hoặc đạt giới hạn max_limit
     while current_depth <= max_limit:
-        path, weight, expanded_nodes = dfs(maze, ares[0], ares[1], stones, targets, weights, current_depth)
-        
+        path, weight, expanded_nodes = dfs(maze, player_pos[0], player_pos[1], stones, targets, weights, current_depth)
         if path:
-            break  # Tìm được lời giải, thoát vòng lặp
-        current_depth += max_increment  # Tăng max_depth thêm một giá trị cố định
+            break
+        current_depth += max_increment
 
     end_time = time.time()
     current, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
 
     output_filename = "output/output-" + os.path.basename(filename).split('-')[1]
-    if path:
-        with open(output_filename, "a") as output_file:
-            output_file.write("DFS\n")
-            output_file.write(f"Steps: {len(path)}, Weight: {weight}, Node: {expanded_nodes}, "
-                              f"Time (ms): {(end_time - start_time) * 1000:.2f}, "
-                              f"Memory (MB): {peak / (1024 * 1024):.2f}\n")
-            output_file.write("".join(path) + "\n")
-        print(f"Kết quả đã được ghi vào {output_filename}")
-    else:
-        print("Không tìm thấy đường đi trong giới hạn độ sâu cho phép.")
+    with open(output_filename, "a") as output_file:
+        output_file.write("DFS\n")
+        output_file.write(f"Steps: {len(path)}, Weight: {weight}, Nodes: {expanded_nodes}, "
+                          f"Time (ms): {(end_time - start_time) * 1000:.2f}, "
+                          f"Memory (MB): {peak / (1024 * 1024):.2f}\n")
+        output_file.write("".join(path) + "\n")
+    print(f"Result saved to {output_filename}")

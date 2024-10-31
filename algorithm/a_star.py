@@ -1,80 +1,80 @@
-import time
+# astar.py
+import time as TIME
 import tracemalloc
 import os
-import heapq
-from utils import read_maze_from_file, find_positions, all_stones_on_targets, is_valid_move
+from utils import PriorityQueue, readMap, heuristicCost, typeOfAction, checkAllSwitch, psutil
 
-def heuristic_distance(pos, targets):
-    # Sử dụng khoảng cách Manhattan từ vị trí hiện tại tới đích gần nhất làm heuristic
-    return min(abs(pos[0] - target[0]) + abs(pos[1] - target[1]) for target in targets)
-
-def a_star(maze, start_x, start_y, stones, targets, weights):
-    priority_queue = [(0, 0, start_x, start_y, stones, [])]  # (total_cost, path_cost, x, y, stones, path)
-    visited = set()
-    expanded_nodes = 0
-
-    while priority_queue:
-        total_cost, path_cost, x, y, current_stones, path = heapq.heappop(priority_queue)
-
-        if all_stones_on_targets(current_stones, targets):
-            return path, path_cost, expanded_nodes
-
-        state = (x, y, tuple(sorted(current_stones)))
-        if state in visited:
+def a_star(file_name='input-01.txt'):
+    dx = [-1, 0, 1, 0]
+    dy = [0, 1, 0, -1]
+    actionsMap = 'urdlURDL'
+    
+    process = psutil.Process()
+    actions, weight, node, time, memory = '', 0, 0, 0, 0
+    memory = process.memory_info().rss
+    matrix = [[]]
+    player_pos, stones_pos, switches_pos, walls_pos = readMap(matrix, file_name)
+    frontier = PriorityQueue(0)
+    frontier.push((player_pos, stones_pos, actions, weight, 0), 0)    
+    explored_set = set()
+    time = TIME.time()
+    max_memory = memory
+    steps = 0
+    while not frontier.is_empty():
+        topQueue = frontier.pop()
+        player_pos = topQueue[0]
+        stones_pos = topQueue[1]
+        actions = topQueue[2]
+        weight = topQueue[3]
+        g = topQueue[4]
+        if (player_pos, stones_pos) in explored_set:
             continue
-        visited.add(state)
-        expanded_nodes += 1
+        
+        explored_set.add((player_pos, stones_pos))
 
-        moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-        move_directions = ['u', 'd', 'l', 'r']
+        if checkAllSwitch(stones_pos, switches_pos):
+            time = TIME.time() - time
+            max_memory = max(max_memory, process.memory_info().rss)
+            memory = max_memory - memory
+            steps = len(actions)
+            break
+        
+        for i in range(4):
+            x = dx[i] + player_pos[0]
+            y = dy[i] + player_pos[1]
+            t = typeOfAction(i, (x, y), stones_pos, switches_pos, walls_pos)
+            if t == 1:
+                continue
+            new_stones_pos = stones_pos
+            new_weight = weight
+            pushed_stones_weight = 0.01
+            if t == 4:
+                pushed_stones_weight = [i for i in new_stones_pos if (i[0], i[1]) == (x, y)][0][-1]
+                new_stones_pos = tuple(i for i in new_stones_pos if (i[0], i[1]) != (x, y))
+                new_stones_pos += ((x + dx[i], y + dy[i], pushed_stones_weight), )
+                new_weight += pushed_stones_weight
+            new_stones_pos = tuple(sorted(new_stones_pos, key=lambda x: (x[0], x[1])))
+            if ((x, y), new_stones_pos) in explored_set:
+                continue
+            node += 1
+            new_g = g + pushed_stones_weight
+            frontier.push(((x, y), new_stones_pos, actions + actionsMap[i + t], new_weight, new_g), new_g + heuristicCost(new_stones_pos, switches_pos))
+    return actions, steps, weight, node, time, memory
 
-        for move, direction in zip(moves, move_directions):
-            next_x, next_y = x + move[0], y + move[1]
-            new_stones = list(current_stones)
-
-            if (next_x, next_y) in current_stones:
-                # Nếu di chuyển vào ô có đá, kiểm tra xem có thể đẩy đá hay không
-                stone_index = current_stones.index((next_x, next_y))
-                new_stone_x, new_stone_y = next_x + move[0], next_y + move[1]
-
-                if stone_index < len(weights) and is_valid_move(maze, new_stone_x, new_stone_y, current_stones):
-                    new_stones[stone_index] = (new_stone_x, new_stone_y)
-                    new_path_cost = path_cost + weights[stone_index]  # Tăng chi phí bằng trọng số của đá
-                    heuristic = heuristic_distance((new_stone_x, new_stone_y), targets)
-                    heapq.heappush(priority_queue, (new_path_cost + heuristic, new_path_cost, next_x, next_y, new_stones, path + [direction.upper()]))
-            elif is_valid_move(maze, next_x, next_y, current_stones):
-                # Nếu di chuyển bình thường mà không đẩy đá, tăng chi phí thêm 1
-                new_path_cost = path_cost + 1
-                heuristic = heuristic_distance((next_x, next_y), targets)
-                heapq.heappush(priority_queue, (new_path_cost + heuristic, new_path_cost, next_x, next_y, current_stones, path + [direction]))
-
-    return None, 0, expanded_nodes
-
-def solve_maze(filename):
-    weights, maze = read_maze_from_file(filename)
-    ares, stones, targets = find_positions(maze)
-
-    if ares is None or not stones or not targets or len(stones) != len(targets):
-        print("Mê cung không có vị trí hợp lệ hoặc số lượng đá và đích không khớp.")
-        return
-
+def solve_maze(file_name='input-01.txt'):
     tracemalloc.start()
-    start_time = time.time()
-
-    path, total_cost, expanded_nodes = a_star(maze, ares[0], ares[1], stones, targets, weights)
-
-    end_time = time.time()
+    start_time = TIME.time()
+    actions, steps, weight, nodes, exec_time, memory = a_star(file_name)
+    
+    end_time = TIME.time()
     current, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
 
-    output_filename = "output/output-" + os.path.basename(filename).split('-')[1]
-    if path:
-        with open(output_filename, "a") as output_file:  # Mở file ở chế độ append
-            output_file.write("A*\n")
-            output_file.write(f"Steps: {len(path)}, Weight: {total_cost}, Node: {expanded_nodes}, "
-                              f"Time (ms): {(end_time - start_time) * 1000:.2f}, "
-                              f"Memory (MB): {peak / (1024 * 1024):.2f}\n")
-            output_file.write("".join(path) + "\n")
-        print(f"Kết quả đã được ghi vào {output_filename}")
-    else:
-        print("Không tìm thấy đường đi trong giới hạn độ sâu cho phép.")
+    output_filename = "output/output-" + os.path.basename(file_name).split('-')[1]
+    with open(output_filename, "a") as output_file:
+        output_file.write("A*\n")
+        output_file.write(f"Steps: {steps}, Weight: {weight}, Nodes: {nodes}, "
+                          f"Time (ms): {(end_time - start_time) * 1000:.2f}, "
+                          f"Memory (MB): {peak / (1024 * 1024):.2f}\n")
+        output_file.write("".join(actions) + "\n")
+    print(f"Result saved to {output_filename}")
