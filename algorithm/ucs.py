@@ -19,14 +19,14 @@ def ucs(maze, x, y, stones, targets, weights):
             (maze[i+1][j] == '#' and maze[i][j+1] == '#')
         )}
 
-    priority_queue = [(0, x, y, stones, [])]
+    priority_queue = [(0, x, y, tuple(stones), [])]
     visited = {}
     expanded_nodes = 0
 
     while priority_queue:
         cost, current_x, current_y, current_stones, path = heapq.heappop(priority_queue)
         
-        state = (current_x, current_y, current_stones)
+        state = (current_x, current_y, tuple(current_stones))
         if state in visited and visited[state] <= cost:
             continue
             
@@ -90,7 +90,7 @@ def solve_maze(filename):
     _, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
 
-    output_filename = "output-" + os.path.basename(filename).split('-')[1]
+    output_filename = "output/output-" + os.path.basename(filename).split('-')[1]
     if path:
         with open(output_filename, "a") as output_file:
             output_file.write("UCS\n")

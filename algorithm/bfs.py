@@ -5,7 +5,7 @@ import tracemalloc
 import os
 
 def bfs(maze, x, y, stones, targets, weights):
-    queue = deque([(x, y, stones, [], 0)]) 
+    queue = deque([(x, y, tuple(stones), [], 0)]) 
     visited = set() 
     expanded_nodes = 0  
 
