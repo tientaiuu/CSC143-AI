@@ -48,7 +48,7 @@ def a_star(file_name='input-01.txt'):
             
             updated_stones_position = stones_position
             updated_weight = total_weight
-            push_cost = 0.01
+            push_cost = 0.001
             
             if action_type == 4:
                 push_cost = [stone for stone in updated_stones_position if (stone[0], stone[1]) == (new_x, new_y)][0][-1]
