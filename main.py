@@ -30,12 +30,11 @@ def run_all_mazes(input_folder="input", output_folder="output", initial_depth=10
             print(f"Đang xử lý với DFS: {input_path}")
             solve_maze_dfs(input_path, initial_depth=initial_depth, max_increment=max_increment, max_limit=max_limit)
             
+            print(f"Đang xử lí với UCS: {input_path}")
+            solve_maze_ucs(input_path)
+            
             print(f"Đang xử lí với A*: {input_path}")
             solve_maze_a_star(input_path)
             
-            print(f"Đang xử lí với UCS: {input_path}")
-            solve_maze_ucs(input_path)
-
-
 if __name__ == "__main__":
     run_all_mazes()

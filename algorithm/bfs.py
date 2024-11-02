@@ -5,9 +5,9 @@ import time
 import tracemalloc
 import os
 
-
+# Thuật toán BFS
 def bfs(matrix, start_x, start_y, stones, targets, weights, walls_pos):
-    queue = deque([(start_x, start_y, stones, [], 0, 0)]) 
+    queue = deque([(start_x, start_y, stones, [], 0, 0)])  # (x, y, stones, path, weight_temp, depth)
     visited = set()
     expanded_nodes = 0
 
